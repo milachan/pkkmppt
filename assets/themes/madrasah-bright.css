@@ -1,0 +1,86 @@
+/* =====================================================================
+   theme: madrasah-bright — cerah, jenuh, berkarakter
+   Dibuat khusus untuk deck PKKM MTsN 2 Kebumen (Aspek 5).
+   Palet: hijau madrasah + emas prestasi + biru langit, di atas kanvas
+   putih hangat. Semua warna dipilih agar kontras teks tetap WCAG AA.
+   ===================================================================== */
+:root{
+  /* ---- surfaces (terang) ---- */
+  --bg:#ffffff;
+  --bg-soft:#f6fbf7;
+  --surface:#ffffff;
+  --surface-2:#eef7f1;
+  --border:rgba(6,60,38,.12);
+  --border-strong:rgba(6,60,38,.26);
+
+  /* ---- text ----
+     --text-3 gelap cukup untuk terbaca dari jarak 3-5 m di proyektor.
+     Versi lama (#7a9287) hanya 3.34:1 terhadap putih (gagal WCAG AA). */
+  --text-1:#0a2b1e;
+  --text-2:#2f4a3d;
+  --text-3:#4e6b5c;          /* 6.2:1 terhadap putih */
+
+  /* ---- brand ---- */
+  --accent:#00a86b;          /* hijau madrasah, ceria */
+  --accent-2:#0a84d8;        /* biru langit */
+  --accent-3:#f5a300;        /* emas prestasi */
+  --accent-ink:#04241a;      /* teks di atas accent — 8.2:1 */
+
+  --good:#00a86b;
+  --warn:#f5a300;
+  --bad:#e23d3d;
+
+  /* ---- gradients (dipakai untuk header, angka, badge) ---- */
+  --grad:linear-gradient(120deg,#00c47e 0%,#12b3c9 38%,#2d8cf0 68%,#8a5cf6 100%);
+  --grad-2:linear-gradient(120deg,#ffb000,#ff7a45);
+  --grad-3:linear-gradient(120deg,#00c47e,#f5a300);
+  --grad-soft:linear-gradient(120deg,#e6fbf1,#e8f4ff 60%,#fff4e0);
+
+  --radius:22px;
+  --radius-sm:14px;
+  --radius-lg:32px;
+  --shadow:0 2px 4px rgba(4,60,40,.04),0 14px 34px rgba(4,60,40,.10);
+  --shadow-lg:0 26px 70px rgba(4,60,40,.18);
+
+  --font-sans:'Plus Jakarta Sans','Inter',system-ui,sans-serif;
+  --font-display:'Plus Jakarta Sans','Inter',system-ui,sans-serif;
+  --letter-tight:-.035em;
+}
+
+/* kanvas: putih dengan "aura" warna lembut — tetap terang, tidak suram */
+body{
+  background:
+    radial-gradient(46% 38% at 8% 4%,rgba(0,196,126,.16),transparent 70%),
+    radial-gradient(42% 34% at 94% 6%,rgba(45,140,240,.15),transparent 72%),
+    radial-gradient(50% 42% at 50% 104%,rgba(245,163,0,.14),transparent 70%),
+    #ffffff;
+}
+
+/* kartu: putih bersih, garis tipis berwarna, bayangan lembut */
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+.card-soft{background:var(--surface-2);border:1px solid var(--border)}
+.card-accent{
+  border-color:color-mix(in srgb,var(--accent) 40%,transparent);
+  background:linear-gradient(180deg,#f2fdf8,#ffffff);
+}
+
+/* accent teks tetap terbaca di atas putih */
+:root{
+  --kicker-ink:#00764a;      /* hijau tua untuk teks badge di atas putih */
+  --accent-ink-strong:#008f5a;
+}
+.kicker{color:var(--accent-ink-strong)}
+.pill-accent{
+  background:color-mix(in srgb,var(--accent) 14%,#fff);
+  color:#00764a;
+  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+}
+.divider-accent{background:var(--grad-3);height:4px}
+
+/* chrome */
+.deck-header .eyebrow{color:var(--text-3)}
+.progress-bar,.bar-fill{background:var(--grad)}

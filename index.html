@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="madrasah-bright">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PKKM 2026 · Aspek 5 — Muhdir, M.Pd.I.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" id="theme-link" href="assets/themes/madrasah-bright.css">
+<link rel="stylesheet" href="assets/animations/animations.css">
+<style>
+/* ============================================================
+   Komponen khusus deck ini — semua warna lewat token tema.
+   ============================================================ */
+html,body{font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+.slide{padding:56px 80px}
+.slide.full{padding:0}
+/* cover: grid is absolutely positioned so it always fills the slide */
+.slide.full > .cover-wrap{position:absolute;inset:0;height:auto;padding:56px 80px;box-sizing:border-box}
+.slide.full > .cover-wrap > div{display:flex;flex-direction:column;justify-content:center;min-height:0}
+
+/* ---------- cover ---------- */
+.cover-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:stretch;height:100%;box-sizing:border-box}
+.cover-visual{position:relative;height:100%;min-height:0;align-self:stretch;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg)}
+.cover-visual > img{position:absolute;inset:0;width:100% !important;height:100% !important;max-width:none !important;object-fit:cover;object-position:center 30%;display:block}
+.cover-visual.anim-fade-left{display:block}
+.cover-title{font-size:74px;line-height:1.18;font-weight:800;letter-spacing:-.04em;margin:0;color:var(--text-1);white-space:nowrap;overflow:visible}
+.cover-title .accent-line{display:block;line-height:1.18;padding-bottom:.06em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cover-sub{font-size:30px;font-weight:600;color:var(--text-2);margin:18px 0 0;line-height:1.3}
+.cover-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:30px 34px;margin-top:34px}
+.id-row{display:grid;grid-template-columns:auto 1fr;gap:10px 24px;font-size:24px}
+.id-row dt{color:var(--text-3);font-weight:500}
+.id-row dd{margin:0;color:var(--text-1);font-weight:700}
+
+.cover-visual .tag{z-index:2;position:absolute;left:16px;right:16px;bottom:16px;display:block;
+  padding:12px 18px;border-radius:14px;background:rgba(3,32,22,.82);color:#fff;backdrop-filter:blur(6px);
+  font-size:24px;font-weight:700;line-height:1.25;text-align:left}
+.cover-visual::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(200deg,rgba(0,196,126,.18),transparent 45%)}
+
+/* ---------- lokus / timeline ---------- */
+.lokus{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:18px;position:relative}
+.lokus::before{content:"";position:absolute;left:50%;top:75px;height:calc(100% - 42px);width:3px;transform:translateX(-50%);background:var(--grad-3);border-radius:2px}
+.lokus .side{padding:0 46px}
+.lokus .side:first-child{text-align:right}
+.lokus .year{font-size:24px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#008f5a}
+.lokus h3{font-size:42px;margin:10px 0 6px;font-weight:800;letter-spacing:-.03em}
+.lokus p{font-size:24px;color:var(--text-2);margin:0}
+.lokus .dot{position:absolute;left:50%;width:22px;height:22px;border-radius:50%;background:#fff;border:5px solid var(--accent);transform:translateX(-50%);box-shadow:0 0 0 6px rgba(0,166,107,.14)}
+.lokus .dot.d1{top:64px}
+.lokus .dot.d2{top:calc(100% + 14px)}
+.lokus-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 28px;margin-top:22px}
+
+/* kolom kanan: satu kartu berisi 1 langkah awal + 3 prestasi madrasah 2026 */
+.side .lokus-card{padding:20px 24px;margin-top:16px}
+.side .lokus-card .doclist{gap:10px}
+.side .lokus-card .doclist div{font-size:23px;line-height:1.32}
+.side{display:flex;flex-direction:column}
+.side .lokus-card{flex:0 0 auto}
+
+/* ---------- angka besar ---------- */
+.big{font-size:96px;font-weight:800;line-height:.92;letter-spacing:-.05em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.big-2{background:var(--grad-2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.unit{font-size:28px;font-weight:700;color:var(--text-3);letter-spacing:0}
+
+/* ---------- kartu kecil ---------- */
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 28px;position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--grad-3)}
+.kpi .lbl{font-size:24px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin:0 0 6px}
+.kpi .val{font-size:60px;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--text-1)}
+.kpi .sub{font-size:24px;color:var(--text-2);margin:8px 0 0}
+
+/* ---------- galeri bukti ---------- */
+.gal{display:grid;gap:18px;flex:1;min-height:0}
+.gal.g3{grid-template-columns:repeat(3,1fr)}
+.gal.g4{grid-template-columns:repeat(4,1fr)}
+.gal.g5{grid-template-columns:repeat(5,1fr)}
+.gal>.item{display:flex;flex-direction:column;min-height:0}
+.gal>.item>.shot{flex:1 1 auto;min-height:0}
+.shot[style*="height:"]{flex:0 0 auto}
+.shot{flex:1;min-height:0;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);
+  box-shadow:var(--shadow);background:var(--surface);position:relative}
+/* base.css sets img{max-width:100%}, which breaks object-fit inside a wider frame.
+   Pin the image to the frame so it always fills (or letterboxes with .contain). */
+.shot > img{position:absolute;inset:0;width:100% !important;height:100% !important;max-width:none !important;
+  object-fit:cover;object-position:top center;display:block}
+.shot.contain > img{object-fit:contain;object-position:center top;background:var(--surface);padding:12px 12px 76px}
+.shot .cap{position:absolute;left:0;right:0;bottom:0;padding:14px 16px 12px;
+  background:linear-gradient(180deg,rgba(3,32,22,.0) 0%,rgba(3,32,22,.88) 26%,rgba(3,32,22,.96) 100%);color:#fff;font-size:23px;font-weight:600;line-height:1.26}
+.shot .cap b{display:block;font-size:26px;font-weight:800;line-height:1.18;margin-bottom:1px}
+.shot .badge{position:absolute;top:12px;left:12px;background:var(--surface);color:var(--kicker-ink);font-size:24px;font-weight:800;
+  padding:7px 14px;border-radius:999px;box-shadow:var(--shadow);letter-spacing:.04em;line-height:1}
+
+/* ---------- stat bar ---------- */
+.bars{display:flex;flex-direction:column;gap:15px;margin-top:24px}
+.bar{display:grid;grid-template-columns:268px 1fr 64px;gap:18px;align-items:center}
+.bar .nm{font-size:24px;color:var(--text-2);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .tr{height:26px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border);overflow:hidden}
+.bar .fl{height:100%;border-radius:999px;background:var(--grad-3);width:0}
+.bar .fl.grow{transition:width 1.15s cubic-bezier(.22,1,.36,1)}
+.bar .nu{font-size:24px;font-weight:800;text-align:right;color:var(--text-1)}
+
+/* ---------- kartu penghargaan ---------- */
+.award{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center;background:var(--surface);
+  border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow);padding:20px 20px;min-height:158px}
+.award .thumb{width:150px;height:116px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--surface);position:relative}
+.award .thumb > img{position:absolute;inset:0;width:100% !important;height:100% !important;max-width:none !important;object-fit:cover;object-position:top center}
+.award .txt b{display:block;font-size:25px;font-weight:800;line-height:1.2;color:var(--text-1)}
+.award .txt span{font-size:21px;color:var(--text-2);font-weight:600;line-height:1.28;display:block;margin-top:4px}
+
+/* ---------- mitra ---------- */
+.mitra{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;grid-auto-rows:1fr}
+.mitra .m{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow);
+  padding:14px 16px;display:flex;gap:14px;align-items:center}
+.mitra .m i{width:64px;height:64px;border-radius:14px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+  background:var(--grad-soft);font-style:normal;font-weight:800;font-size:20px;color:var(--kicker-ink);border:1px solid var(--border)}
+/* logo resmi mitra: tanpa kotak warna agar crest tetap terbaca di proyektor */
+.mitra .m i.lg{background:#fff;border:1px solid var(--border-strong);padding:5px;overflow:hidden;box-shadow:0 1px 3px rgba(4,60,40,.10)}
+.mitra .m i.lg img{width:100%;height:100%;object-fit:contain;display:block}
+.mitra .m b{font-size:24px;font-weight:800;line-height:1.22;display:block;color:var(--text-1)}
+.mitra .m span{font-size:22px;color:var(--text-2);font-weight:600;line-height:1.25;display:block;margin-top:2px}
+
+/* ---------- slide 5: 8 piagam seragam ---------- */
+.piag-grid{gap:14px 16px;align-items:stretch}
+.piag{height:296px;border-radius:var(--radius-sm);background:var(--surface);position:relative}
+/* gambar menempati sisa ruang: mata + caption; badge mengambang di atasnya */
+.piag > img{position:absolute;top:44px;left:10px;right:10px;bottom:72px;width:calc(100% - 20px);height:calc(100% - 116px);
+  object-fit:contain;object-position:center;background:#fff;padding:0}
+.piag .cap{padding:11px 12px 10px;font-size:16px;line-height:1.22;background:linear-gradient(180deg,rgba(3,32,22,.90),rgba(3,32,22,.97))}
+.piag .cap b{font-size:18px;line-height:1.14;margin-bottom:1px}
+.piag .badge{font-size:15px;padding:5px 10px;letter-spacing:.05em;z-index:4;top:9px;left:9px;box-shadow:0 2px 8px rgba(4,60,40,.22)}
+.piag .badge.tier-1{background:linear-gradient(120deg,#b8860b,#f0b429);color:#241a00}
+.piag .badge.tier-2{background:linear-gradient(120deg,#0a84d8,#4fb3f5);color:#04203a}
+.piag .badge.tier-3{background:linear-gradient(120deg,#00a86b,#5fd39a);color:#04241a}
+.piag .badge.tier-4{background:linear-gradient(120deg,#7a5cf6,#a98cf9);color:#170a3f}
+.piag-foot{margin-top:14px;font-size:20px;line-height:1.35;color:var(--text-2)}
+.piag-foot b{color:var(--text-1)}
+/* ---------- slide 7: bukti prestasi guru ---------- */
+.guru-grid{gap:14px;align-items:stretch}
+.gshot{height:308px;border-radius:var(--radius-sm);background:var(--surface)}
+.gshot > img{position:absolute;top:42px;left:10px;right:10px;bottom:74px;width:calc(100% - 20px);height:calc(100% - 116px);
+  object-fit:contain;background:#fff;padding:0}
+.gshot .cap{padding:11px 12px 10px;font-size:16px;line-height:1.22;background:linear-gradient(180deg,rgba(3,32,22,.90),rgba(3,32,22,.97))}
+.gshot .cap b{font-size:18px;line-height:1.14;margin-bottom:1px}
+.gshot .badge{font-size:15px;padding:5px 10px;left:9px;top:9px;z-index:4;box-shadow:0 2px 8px rgba(4,60,40,.22)}
+/* ---------- slide 11: ijazah & transkrip ---------- */
+.docgrid{gap:14px;align-items:stretch;flex:1;min-height:0;grid-template-columns:1fr 1fr}
+.dshot{min-height:430px;height:430px;border-radius:var(--radius-sm);background:var(--surface);position:relative;overflow:hidden;padding:0;display:block}
+.dshot > img{position:absolute;top:46px;left:8px;right:8px;bottom:64px;width:calc(100% - 16px);height:calc(100% - 110px);
+  object-fit:contain;object-position:center;background:#fff;padding:0}
+.dshot .cap{padding:10px 12px 9px;font-size:16px;line-height:1.2;background:linear-gradient(180deg,rgba(3,32,22,.90),rgba(3,32,22,.97))}
+.dshot .cap b{font-size:18px;line-height:1.14;margin-bottom:1px}
+.dshot .badge{font-size:15px;padding:5px 10px;left:9px;top:9px;z-index:4;box-shadow:0 2px 8px rgba(4,60,40,.22)}
+
+
+
+
+/* ---------- full-bleed ---------- */
+.bleed{position:absolute;inset:0}
+.bleed > img{position:absolute;inset:0;width:100% !important;height:100% !important;max-width:none !important;
+  object-fit:cover;object-position:center;display:block}
+.bleed .scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,32,22,.92) 0%,rgba(3,32,22,.72) 42%,rgba(3,32,22,.12) 78%,transparent 100%)}
+.bleed .cap{position:absolute;left:80px;bottom:88px;max-width:960px;color:#fff}
+.bleed .cap h1{font-size:86px;line-height:1.02;font-weight:800;letter-spacing:-.04em;margin:0;color:#fff}
+.bleed .cap p{font-size:26px;line-height:1.5;margin:20px 0 0;color:rgba(255,255,255,.9)}
+.bleed .pill{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.3)}
+
+/* ---------- kalimat besar ---------- */
+.quote{font-size:60px;line-height:1.16;font-weight:800;letter-spacing:-.035em;max-width:1180px}
+.quote em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- daftar dokumen ---------- */
+.doclist{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 28px;margin-top:20px}
+.doclist div{display:flex;gap:14px;align-items:flex-start;font-size:24px;color:var(--text-2);line-height:1.42}
+.doclist .tick{width:34px;height:34px;border-radius:50%;background:var(--grad-3);color:#fff;font-size:21px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;line-height:1}
+</style>
+</head>
+<body>
+<div class="deck" data-themes="madrasah-bright,aurora,minimal-white,corporate-clean" data-theme-base="assets/themes/">
+
+<!-- ==================== 01 · COVER ==================== -->
+<section class="slide is-active full" data-title="Cover" data-no-logo>
+  <div class="cover-wrap" style="padding:64px 88px">
+    <div>
+      <p class="kicker anim-fade-down" data-anim="fade-down">Laporan Kinerja · PKKM Tahunan 2026</p>
+      <h1 class="cover-title anim-rise-in" data-anim="rise-in">
+        Aspek 5<span class="accent-line">Prestasi &amp;<br>Pengembangan Diri</span>
+      </h1>
+      <p class="cover-sub anim-fade-up" data-anim="fade-up">Dua lokus jabatan, satu perjalanan kinerja<br>MTsN 3 Kebumen &amp; MTsN 2 Kebumen</p>
+
+      <div class="cover-card anim-blur-in" data-anim="blur-in">
+        <dl class="id-row" style="margin:0">
+          <dt>Kepala Madrasah</dt><dd>Muhdir, M.Pd.I.</dd>
+          <dt>NIP</dt><dd>197709272006041019</dd>
+          <dt>Unit Kerja</dt><dd>MTs Negeri 2 Kebumen</dd>
+          <dt>Kementerian</dt><dd>Kementerian Agama</dd>
+          <dt>Periode</dt><dd>2023 — s.d. 10 November 2026</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="cover-visual anim-fade-left" data-anim="fade-left">
+      <img src="media/slide/new_cover.jpg" alt="Kepala madrasah menyampaikan paparan pada Rapat Pleno Penyampaian Visi, Misi, dan Program">
+      <span class="tag" style="font-size:24px">Rapat Pleno Orang Tua · 10 September 2026</span>
+    </div>
+  </div>
+  <div class="notes">Assalamu'alaikum warahmatullahi wabarakatuh. Yang terhormat Tim Penilai Kinerja Kepala Madrasah. Saya Muhdir, M.Pd.I., NIP 197709272006041019, Kepala MTs Negeri 2 Kebumen. Pada kesempatan ini saya menyampaikan laporan kinerja Aspek 5, yaitu Prestasi dan Pengembangan Diri, dalam rangka PKKM Tahunan tahun 2026. Perlu saya sampaikan sejak awal bahwa periode penilaian mencakup dua lokus jabatan: di MTs Negeri 3 Kebumen sejak tahun dua ribu dua puluh tiga hingga Juni dua ribu dua puluh enam, dan di MTs Negeri 2 Kebumen sejak Juli hingga sepuluh November dua ribu dua puluh enam.</div>
+</section>
+
+<!-- ==================== 02 · LOCUS / TIMELINE ==================== -->
+<section class="slide" data-title="Dua Lokus Jabatan">
+  <div class="deck-header"><span class="eyebrow">Kerangka Periode</span><span class="eyebrow">2023 — 10 November 2026</span></div>
+  <p class="kicker">Dua lokus · satu laporan</p>
+  <h2 class="h2">Perjalanan kepemimpinan <span class="gradient-text">di dua madrasah</span></h2>
+  <p class="lede" style="max-width:104ch">Seluruh capaian dalam Aspek 5 merupakan akumulasi kinerja pada dua unit kerja yang berbeda lokus.</p>
+
+  <div class="lokus">
+    <div class="dot d1"></div>
+    <div class="dot d2"></div>
+
+    <div class="side">
+      <p class="year">2023 — Juni 2026</p>
+      <h3>MTsN 3 Kebumen</h3>
+      <p>Jalan Pagedangan No. 37, Kutowinangun</p>
+      <div class="lokus-card" style="text-align:left">
+        <p class="lbl" style="margin:0 0 10px;font-size:24px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)">Capaian utama</p>
+        <div class="doclist" style="grid-template-columns:1fr;margin-top:0">
+          <div><span class="tick">&#10003;</span><span>Sekolah Aktif Literasi Nasional (2023)</span></div>
+          <div><span class="tick">&#10003;</span><span>IKM Berbasis Komunitas — 92,30 (2024)</span></div>
+          <div><span class="tick">&#10003;</span><span>IKPA Award 2025 &amp; IKPA Terbaik 2026</span></div>
+          <div><span class="tick">&#10003;</span><span>Sekolah Adiwiyata &amp; Siaga Kependudukan</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side" style="text-align:left">
+      <p class="year">Juli — 10 November 2026</p>
+      <h3>MTsN 2 Kebumen</h3>
+      <p>Unit kerja saat penilaian PKKM 2026</p>
+      <div class="lokus-card">
+        <p class="lbl" style="margin:0 0 10px;font-size:24px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)">Capaian 2026</p>
+        <div class="doclist" style="grid-template-columns:1fr;margin-top:0">
+          <div><span class="tick">&#10003;</span><span>Langkah awal: Rapat pleno visi-misi &amp; RAPBM (10 Sept 2026)</span></div>
+          <div><span class="tick">&#10003;</span><span>Nilai IKPA Terbaik — Peringkat I (KPPN Purworejo, 20 Juli 2026)</span></div>
+          <div><span class="tick">&#10003;</span><span>Sekolah Adiwiyata Kabupaten Kebumen (DLHK, 29 Sept 2026)</span></div>
+          <div><span class="tick">&#10003;</span><span>Sekolah Siaga Kependudukan — SK Kankemenag No. 303/2026</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">Ini halaman kunci yang perlu dipahami tim penilai. Periode penilaian saya mencakup dua lokus jabatan. Pertama, di MTs Negeri 3 Kebumen sejak tahun dua ribu dua puluh tiga sampai Juni dua ribu dua puluh enam. Kedua, di MTs Negeri 2 Kebumen sejak Juli sampai sepuluh November dua ribu dua puluh enam. Dokumen penghargaan yang menyebut nama MTsN 3 Kebumen adalah dokumen historis dari lokus pertama, dan secara resmi madrasah tersebut telah berganti nama menjadi MTs Negeri 2 Kebumen sebagaimana tercatat dalam rekap prestasi madrasah. Di MTs Negeri 2 Kebumen langkah awal saya adalah rapat pleno penyampaian visi, misi, dan program madrasah beserta pembahasan RAPBM pada sepuluh September dua ribu dua puluh enam. Sejalan dengan itu, madrasah meraih tiga prestasi pada tahun dua ribu dua puluh enam, yaitu Nilai IKPA Terbaik Peringkat Pertama dari KPPN Purworejo pada dua puluh Juli, Sertifikat Sekolah Adiwiyata Kabupaten Kebumen pada dua puluh sembilan September, serta penetapan Sekolah Siaga Kependudukan melalui Keputusan Kankemenag Nomor tiga ratus tiga tahun dua ribu dua puluh enam. Rincian dua belas penghargaan madrasah dibahas pada halaman tersendiri.</div>
+</section>
+
+<!-- ==================== 03 · DIVIDER 5.1 (FULL BLEED FOTO) ==================== -->
+<section class="slide full" data-title="Sub 5.1" data-no-logo>
+  <div class="bleed">
+    <img src="media/slide/new_div51.jpg" alt="Peserta didik MTsN 3 Kebumen bersama piala kejuaraan" style="object-position:center 45%">
+    <div class="scrim"></div>
+    <div class="cap">
+      <span class="pill">Sub-Aspek · 5.1</span>
+      <h1 class="mt-s anim-rise-in" data-anim="rise-in">Prestasi<br>Peserta Didik</h1>
+      <p>Indikator 5.1.1 prestasi akademik · Indikator 5.1.2 prestasi non-akademik</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 04 · PRESTASI SISWA: ANGKA ==================== -->
+<section class="slide" data-title="Prestasi Peserta Didik">
+  <div class="deck-header"><span class="eyebrow">5.1 · Peserta Didik</span><span class="eyebrow">223 Capaian</span></div>
+  <p class="kicker">5.1.1 &amp; 5.1.2</p>
+  <h2 class="h2">Prestasi siswa tumbuh <span class="gradient-text">paling pesat</span></h2>
+
+  <div style="display:grid;grid-template-columns:.85fr 1.15fr;gap:44px;margin-top:28px;align-items:start">
+    <div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+        <div class="kpi"><p class="lbl">Akademik</p><div class="val"><span class="counter" data-to="103">0</span></div><p class="sub">capaian 2024—2026</p></div>
+        <div class="kpi"><p class="lbl">Non-Akademik</p><div class="val"><span class="counter" data-to="120">0</span></div><p class="sub">capaian 2024—2026</p></div>
+      </div>
+      <div class="kpi" style="margin-top:18px;background:var(--grad-soft)">
+        <p class="lbl">Puncak capaian</p>
+        <div style="display:flex;gap:10px;align-items:baseline">
+          <div class="big" style="font-size:64px"><span class="counter" data-to="81">0</span></div>
+          <span style="font-size:24px;font-weight:700;color:var(--text-2)">prestasi akademik pada 2026</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:26px 30px">
+      <p class="lbl" style="margin:0 0 4px;font-size:24px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)">Sebaran menurut tingkat</p>
+      <div class="bars">
+        <div class="bar"><span class="nm">Nasional (akademik)</span><div class="tr"><div class="fl" data-w="82%"></div></div><span class="nu">82</span></div>
+        <div class="bar"><span class="nm">Kab./Kota (non-akademik)</span><div class="tr"><div class="fl" data-w="83%"></div></div><span class="nu">83</span></div>
+        <div class="bar"><span class="nm">Kab./Kota (akademik)</span><div class="tr"><div class="fl" data-w="13%"></div></div><span class="nu">13</span></div>
+        <div class="bar"><span class="nm">Nasional (non-akademik)</span><div class="tr"><div class="fl" data-w="10%"></div></div><span class="nu">10</span></div>
+        <div class="bar"><span class="nm">Kecamatan</span><div class="tr"><div class="fl" data-w="9%"></div></div><span class="nu">9</span></div>
+        <div class="bar"><span class="nm">Provinsi (akademik)</span><div class="tr"><div class="fl" data-w="8%"></div></div><span class="nu">8</span></div>
+        <div class="bar"><span class="nm">Eks Karesidenan Kedu</span><div class="tr"><div class="fl" data-w="7%"></div></div><span class="nu">7</span></div>
+        <div class="bar"><span class="nm">Internasional (non-akad.)</span><div class="tr"><div class="fl" data-w="6%"></div></div><span class="nu">6</span></div>
+        <div class="bar"><span class="nm">Provinsi (non-akademik)</span><div class="tr"><div class="fl" data-w="5%"></div></div><span class="nu">5</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">Sub-aspek 5.1 menilai prestasi peserta didik. Total 223 capaian, terdiri dari 103 prestasi akademik dan 120 prestasi non-akademik. Untuk akademik, sebarannya 82 tingkat nasional, 13 kabupaten/kota, dan 8 provinsi. Untuk non-akademik, sebaran terbesar di tingkat kabupaten/kota sebanyak 83, disusul nasional 10, kecamatan 9, eks karesidenan Kedu 7, internasional 6, dan provinsi 5. Puncak capaian akademik terjadi pada tahun 2026 sebanyak 81 prestasi dari total 103.</div>
+</section>
+
+<!-- ==================== 05 · PIAGAM SISWA (GALERI) ==================== -->
+<section class="slide" data-title="Piagam Siswa">
+  <div class="deck-header"><span class="eyebrow">Bukti 5.1.1</span><span class="eyebrow">Delapan piagam · terverifikasi</span></div>
+  <p class="kicker">Bukti fisik · piagam &amp; medali</p>
+  <h2 class="h2">Bukan klaim — <span class="gradient-text">ini piagamnya</span></h2>
+
+  <div class="gal g4 piag-grid anim-stagger-list" data-anim-target style="margin-top:20px">
+    <div class="item"><figure class="shot contain piag"><span class="badge tier-1">INTERNASIONAL</span><img src="media/slide/piag_01.jpg" alt="Sertifikat Juara 1 Pencak Silat Paku Bumi Open 12th Championship 2024 atas nama Didik Kurniawan"><figcaption class="cap"><b>Juara 1 · Pencak Silat</b>Didik Kurniawan · Paku Bumi Open 2024</figcaption></figure></div>
+    <div class="item"><figure class="shot contain piag"><span class="badge tier-1">INTERNASIONAL</span><img src="media/slide/piag_02.jpg" alt="Sertifikat Juara 1 Pencak Silat Paku Bumi Open 13th Championship 2025 atas nama Early Satya Arisanti"><figcaption class="cap"><b>Juara 1 · Pencak Silat</b>Early Satya Arisanti · Paku Bumi Open 2025</figcaption></figure></div>
+    <div class="item"><figure class="shot contain piag"><span class="badge tier-2">PROVINSI</span><img src="media/slide/piag_03.jpg" alt="Piagam Medali Perunggu OSMA Jawa Tengah 2026 atas nama Azka Nur Rafif"><figcaption class="cap"><b>Medali Perunggu · IPS</b>Azka Nur Rafif · OSMA Jateng 2026</figcaption></figure></div>
+    <div class="item"><figure class="shot contain piag"><span class="badge tier-2">PROVINSI</span><img src="media/slide/piag_04.jpg" alt="Piagam Juara III Kompetisi Sains Madrasah 2024 Tingkat Provinsi Jawa Tengah atas nama Balqis Amira Nadhifa Al Athir"><figcaption class="cap"><b>Juara III · IPS Terpadu</b>Balqis Amira N. A. · KSM Jateng 2024</figcaption></figure></div>
+    <div class="item"><figure class="shot contain piag"><span class="badge tier-3">NASIONAL</span><img src="media/slide/piag_05.jpg" alt="Piagam Medali Perak KOSSMI 2024 atas nama Balqis Amira Nadhifa Al Athir"><figcaption class="cap"><b>Medali Perak · IPS</b>Balqis Amira N. A. · KOSSMI 2024</figcaption></figure></div>
+    <div class="item"><figure class="shot contain piag"><span class="badge tier-3">NASIONAL</span><img src="media/slide/piag_06.jpg" alt="Piagam Medalis Perunggu Pekan Olimpiade Pelajar Nasional Batch 8 atas nama Naila Husna"><figcaption class="cap"><b>Medalis Perunggu · Inggris</b>Naila Husna · POPNAS Batch 8</figcaption></figure></div>
+    <div class="item"><figure class="shot contain piag"><span class="badge tier-4">KABUPATEN</span><img src="media/slide/piag_07.jpg" alt="Sertifikat Juara I OSN Mapel IPS Tingkat Kabupaten Kebumen 2025 atas nama Devina Nur Aisyah"><figcaption class="cap"><b>Juara I · IPS (OSN)</b>Devina Nur Aisyah · Disdikbud Kebumen 2025</figcaption></figure></div>
+    <div class="item"><figure class="shot contain piag"><span class="badge tier-4">KABUPATEN</span><img src="media/slide/piag_08.jpg" alt="Piagam Juara 3 Takraw Putri AKSIOMA Tingkat Kabupaten Kebumen 2025 atas nama Vora Eka Lestari"><figcaption class="cap"><b>Juara 3 · Takraw Putri</b>Vora Eka Lestari · AKSIOMA 2025</figcaption></figure></div>
+  </div>
+
+  <p class="piag-foot">Delapan piagam berjenjang: 2 internasional, 2 provinsi, 2 nasional, 2 kabupaten. Seluruh <b>223 capaian</b> tersimpan sebagai berkas digital dan siap diverifikasi.</p>
+  <div class="notes">Saya tidak ingin menyampaikan klaim tanpa bukti. Pada halaman ini ditampilkan delapan piagam asli para siswa dengan jenjang yang beragam. Dua di antaranya tingkat internasional, yaitu juara pertama Pencak Silat pada Paku Bumi Open dua ribu dua puluh empat dan dua ribu dua puluh lima. Dua piagam tingkat provinsi dari OSMA dan Kompetisi Sains Madrasah Jawa Tengah. Dua piagam tingkat nasional dari KOSSMI dan Pekan Olimpiade Pelajar Nasional. Serta dua piagam tingkat kabupaten dari OSN Dinas Pendidikan Kebumen dan AKSIOMA. Seluruhnya terdokumentasi sebagai lampiran digital dan siap diverifikasi, sejalan dengan 103 prestasi akademik dan 120 prestasi non-akademik yang saya sampaikan sebelumnya.</div>
+</section>
+
+<!-- ==================== 06 · DIVIDER 5.2 ==================== -->
+<section class="slide full" data-title="Sub 5.2" data-no-logo>
+  <div class="bleed">
+    <img src="media/slide/new_div52.jpg" alt="Pendidik dan tenaga kependidikan MTsN 3 Kebumen" style="object-position:center 40%">
+    <div class="scrim"></div>
+    <div class="cap">
+      <span class="pill">Sub-Aspek · 5.2</span>
+      <h1 class="mt-s anim-rise-in" data-anim="rise-in">Prestasi Guru<br>&amp; Tenaga Kependidikan</h1>
+      <p>Indikator 5.2.1 prestasi akademik · Indikator 5.2.2 prestasi non-akademik</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 07 · PRESTASI GURU ==================== -->
+<section class="slide" data-title="Prestasi Guru dan Tendik">
+  <div class="deck-header"><span class="eyebrow">5.2 · Pendidik &amp; Tendik</span><span class="eyebrow">29 Capaian</span></div>
+  <p class="kicker">5.2.1 &amp; 5.2.2</p>
+  <h2 class="h2">Budaya berkompetisi <span class="gradient-text">menular ke guru</span></h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:26px;align-items:start">
+    <div class="card" style="padding:26px 30px">
+      <p class="lbl" style="margin:0 0 12px;font-size:24px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)">5.2.1 · Akademik</p>
+      <div style="display:flex;gap:14px;align-items:baseline;margin-bottom:18px">
+        <div class="big" style="font-size:66px"><span class="counter" data-to="9">0</span></div>
+        <span style="color:var(--text-2);font-weight:700;font-size:26px">capaian</span>
+      </div>
+      <div class="doclist" style="grid-template-columns:1fr;margin-top:0">
+        <div><span class="tick">&#10003;</span><span><b>Medali Perunggu</b> — Olimpiade Sains Guru (OSG) 2025, nasional</span></div>
+        <div><span class="tick">&#10003;</span><span><b>Instruktur Daring AKMI</b> &amp; REP-MEQR — nasional</span></div>
+        <div><span class="tick">&#10003;</span><span><b>Narasumber</b> tindak lanjut AKMI — provinsi</span></div>
+        <div><span class="tick">&#10003;</span><span><b>Juara 1</b> modul ajar Bahasa Inggris — kabupaten</span></div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:26px 30px">
+      <p class="lbl" style="margin:0 0 12px;font-size:24px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)">5.2.2 · Non-Akademik</p>
+      <div style="display:flex;gap:14px;align-items:baseline;margin-bottom:18px">
+        <div class="big big-2" style="font-size:66px"><span class="counter" data-to="20">0</span></div>
+        <span style="color:var(--text-2);font-weight:700;font-size:26px">capaian</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+        <div class="kpi" style="padding:14px 16px"><p class="lbl" style="font-size:24px">Juara 1</p><div class="val" style="font-size:32px">9</div></div>
+        <div class="kpi" style="padding:14px 16px"><p class="lbl" style="font-size:24px">Juara 2</p><div class="val" style="font-size:32px">4</div></div>
+        <div class="kpi" style="padding:14px 16px"><p class="lbl" style="font-size:24px">Juara 3</p><div class="val" style="font-size:32px">4</div></div>
+        <div class="kpi" style="padding:14px 16px"><p class="lbl" style="font-size:24px">Finalis</p><div class="val" style="font-size:32px">3</div></div>
+      </div>
+      <p style="font-size:24px;color:var(--text-2);margin:0">Cabang: badminton, tenis meja, paduan suara, senam kreasi, catur, bola voli, solo song, fotografi.</p>
+    </div>
+  </div>
+
+  <div class="gal g4 guru-grid anim-stagger-list" data-anim-target style="margin-top:20px">
+    <div class="item"><figure class="shot contain gshot"><span class="badge">NASIONAL</span><img src="media/slide/guru_osg_wide.jpg" alt="Piagam Penghargaan Medali Perunggu Olimpiade Sains Guru 2025 atas nama Zaimatul Munawaroh, POSI"><figcaption class="cap"><b>Medali Perunggu · OSG 2025</b>Zaimatul Munawaroh · POSI, nasional</figcaption></figure></div>
+    <div class="item"><figure class="shot contain gshot"><span class="badge">KABUPATEN</span><img src="media/slide/guru_sakti_video.jpg" alt="Piagam Juara 1 Lomba Video Kreatif Pembelajaran Digital Bahasa Inggris atas nama Sakti Dwiastuti, Kemenag Kabupaten Kebumen 2023"><figcaption class="cap"><b>Juara 1 · Video Kreatif Digital</b>Sakti Dwiastuti · HAB Kemenag Kebumen 2023</figcaption></figure></div>
+    <div class="item"><figure class="shot contain gshot"><span class="badge">KABUPATEN</span><img src="media/slide/guru_pidato_wide.jpg" alt="Sertifikat Juara 1 Pidato Bahasa Arab Putri atas nama Nuriatul Maftukhah, PORSENI GTK 2026"><figcaption class="cap"><b>Juara 1 · Pidato Bahasa Arab</b>Nuriatul Maftukhah · PORSENI GTK 2026</figcaption></figure></div>
+    <div class="item"><figure class="shot contain gshot"><span class="badge">KABUPATEN</span><img src="media/slide/guru_muhdir_land.jpg" alt="Sertifikat Juara 2 Bulu Tangkis Ganda Putra atas nama Muhdir, Harlah NU Ke-94 2023"><figcaption class="cap"><b>Juara 2 · Bulu Tangkis</b>Muhdir · Harlah NU Ke-94, 2023</figcaption></figure></div>
+  </div>
+  <div class="notes">Sub-aspek 5.2 menilai prestasi pendidik dan tenaga kependidikan. Indikator 5.2.1 mencatat 9 prestasi akademik, antara lain medali perunggu Olimpiade Sains Guru tahun dua ribu dua puluh lima, menjadi instruktur daring AKMI, narasumber, dan juara pertama modul ajar. Indikator 5.2.2 mencatat 20 prestasi non-akademik dengan rincian 9 juara pertama, 4 juara kedua, 4 juara ketiga, dan 3 finalis. Lima belas dari 20 prestasi tersebut diraih pada tahun dua ribu dua puluh enam.</div>
+</section>
+
+<!-- ==================== 08 · DIVIDER 5.3 ==================== -->
+<section class="slide full" data-title="Sub 5.3" data-no-logo>
+  <div class="bleed">
+    <img src="media/slide/new_div53.jpg" alt="Gedung MTsN 3 Kebumen" style="object-position:center 55%">
+    <div class="scrim"></div>
+    <div class="cap">
+      <span class="pill">Sub-Aspek · 5.3</span>
+      <h1 class="mt-s anim-rise-in" data-anim="rise-in">Prestasi<br>Madrasah</h1>
+      <p>Indikator 5.3.1 prestasi akademik · Indikator 5.3.2 prestasi non-akademik</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 09 · PENGHARGAAN MADRASAH ==================== -->
+<section class="slide" data-title="Penghargaan Madrasah">
+  <div class="deck-header"><span class="eyebrow">5.3 · Penghargaan Institusi</span><span class="eyebrow">12 Penghargaan</span></div>
+  <p class="kicker">5.3.1 &amp; 5.3.2</p>
+  <h2 class="h2">Diakui dari <span class="gradient-text">nasional sampai kabupaten</span></h2>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px 14px;margin-top:22px">
+    <div class="award anim-fade-up" data-anim="fade-up">
+      <div class="thumb"><img src="media/slide/madrasah_ikm.jpg" alt="Piagam IKM"></div>
+      <div class="txt"><b>Sangat Baik (92,30)</b><span>IKM Berbasis Komunitas · Kemenag RI · 2024</span></div>
+    </div>
+    <div class="award anim-fade-up" data-anim="fade-up">
+      <div class="thumb"><img src="media/slide/madrasah_literasi.jpg" alt="Piagam literasi"></div>
+      <div class="txt"><b>Sekolah Aktif Literasi</b><span>Nasional · Nyalanesia · 2023</span></div>
+    </div>
+    <div class="award anim-fade-up" data-anim="fade-up">
+      <div class="thumb"><img src="media/slide/madrasah_ikpa2026.jpg" alt="Piagam IKPA 2026"></div>
+      <div class="txt"><b>Nilai IKPA Terbaik — I</b><span>KPPN Purworejo · 2026</span></div>
+    </div>
+    <div class="award anim-fade-up" data-anim="fade-up">
+      <div class="thumb"><img src="media/slide/madrasah_ikpa.jpg" alt="Piagam IKPA 2025"></div>
+      <div class="txt"><b>Unit Kinerja Sangat Baik</b><span>IKPA Award · Kanwil DJPb Jateng · 2025</span></div>
+    </div>
+    <div class="award anim-fade-up" data-anim="fade-up">
+      <div class="thumb"><img src="media/slide/madrasah_adiwiyata.jpg" alt="Sertifikat Adiwiyata"></div>
+      <div class="txt"><b>Sekolah Adiwiyata</b><span>DLHK Kabupaten Kebumen · 2026</span></div>
+    </div>
+    <div class="award anim-fade-up" data-anim="fade-up">
+      <div class="thumb"><img src="media/slide/madrasah_ssk.jpg" alt="Sertifikat SSK"></div>
+      <div class="txt"><b>Sekolah Siaga Kependudukan</b><span>Kankemenag Kab. Kebumen · 2026</span></div>
+    </div>
+    <div class="award anim-fade-up" data-anim="fade-up">
+      <div class="thumb"><img src="media/slide/madrasah_ipz.jpg" alt="Piagam IPZ"></div>
+      <div class="txt"><b>Peringkat I IPZ</b><span>Terbanyak &amp; Terdisiplin · Kankemenag · 2024</span></div>
+    </div>
+    <div class="award anim-fade-up" data-anim="fade-up">
+      <div class="thumb"><img src="media/slide/madrasah_sehat.jpg" alt="Piagam madrasah sehat"></div>
+      <div class="txt"><b>Juara Harapan II</b><span>Madrasah Sehat · Provinsi Jawa Tengah · 2023</span></div>
+    </div>
+    <div class="award anim-fade-up" data-anim="fade-up">
+      <div class="thumb"><img src="media/slide/madrasah_npp.jpg" alt="Sertifikat NPP"></div>
+      <div class="txt"><b>NPP Perpustakaan</b><span>“IHYAUL ULUM” · Perpusnas RI · 2026</span></div>
+    </div>
+    <div class="award anim-fade-up" data-anim="fade-up">
+      <div class="thumb"><img src="media/slide/m_animo_diterima.jpg" alt="Piagam Animo Terbanyak pendaftar SNPDB MAN Insan Cendekia Pekalongan"></div>
+      <div class="txt"><b>Animo Terbanyak</b><span>Pendaftar SNPDB MAN IC Pekalongan · Kanwil Kemenag Jateng · 2026</span></div>
+    </div>
+    <div class="award anim-fade-up" data-anim="fade-up">
+      <div class="thumb"><img src="media/slide/m_animo_peringkat2.jpg" alt="Piagam Peringkat II pendaftar diterima MAN Insan Cendekia Pekalongan"></div>
+      <div class="txt"><b>Peringkat II Pendaftar Diterima</b><span>MAN IC Pekalongan · Kanwil Kemenag Jateng · 2026</span></div>
+    </div>
+    <div class="award anim-fade-up" data-anim="fade-up">
+      <div class="thumb"><img src="media/slide/m_mitra_sampah.jpg" alt="Sertifikat Mitra Sekolah Terbaik pemilahan sampah dari Bank Sampah Bedjo Lestari"></div>
+      <div class="txt"><b>Mitra Sekolah Terbaik</b><span>Pemilahan Sampah · Bank Sampah Bedjo Lestari · 2025</span></div>
+    </div>
+  </div>
+  <div class="notes">Sub-aspek 5.3 menilai prestasi dan penghargaan tingkat madrasah, dengan total dua belas penghargaan: lima bidang akademik dan tujuh bidang non-akademik. Yang paling menonjol adalah penghargaan Implementasi Kurikulum Merdeka Berbasis Komunitas dari Kementerian Agama RI dengan nilai 92,30 kategori Sangat Baik, kemudian Nilai IKPA Terbaik peringkat pertama tahun dua ribu dua puluh enam, Sekolah Adiwiyata, Sekolah Siaga Kependudukan, dan Sertifikat Nomor Pokok Perpustakaan dari Perpustakaan Nasional. Selain itu terdapat penghargaan Animo Terbanyak dan Peringkat II Pendaftar Diterima SNPDB MAN Insan Cendekia Pekalongan, Sekolah Aktif Literasi Nasional, Juara Harapan II Madrasah Sehat tingkat provinsi, Peringkat I IPZ, serta Mitra Sekolah Terbaik dalam pemilahan sampah. Sebagaimana saya sampaikan di awal, dokumen-dokumen ini diterbitkan atas nama MTsN 3 Kebumen, yaitu lokus jabatan sebelum Juli dua ribu dua puluh enam.</div>
+</section>
+
+<!-- ==================== 10 · DIVIDER 5.4 ==================== -->
+<section class="slide full" data-title="Sub 5.4" data-no-logo>
+  <div class="bleed">
+    <img src="media/slide/new_div54.jpg" alt="Penandatanganan kerja sama dengan SMAN 1 Prembun" style="object-position:center 40%">
+    <div class="scrim"></div>
+    <div class="cap">
+      <span class="pill">Sub-Aspek · 5.4</span>
+      <h1 class="mt-s anim-rise-in" data-anim="rise-in">Kompetensi<br>Kepala Madrasah</h1>
+      <p>Tujuh indikator · dari kualifikasi akademik hingga kemitraan strategis</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 11 · 5.4.1 + 5.4.2 ==================== -->
+<section class="slide" data-title="5.4.1 Kualifikasi & 5.4.2 Diklat">
+  <div class="deck-header"><span class="eyebrow">Indikator 5.4.1 &amp; 5.4.2</span><span class="eyebrow">Kualifikasi &amp; Pengembangan Diri</span></div>
+  <p class="kicker">5.4.1 kualifikasi · 5.4.2 diklat</p>
+  <h2 class="h2">Magister, dan <span class="gradient-text">316 jam</span> pengembangan diri</h2>
+
+  <div style="display:grid;grid-template-columns:1.02fr 1fr;gap:30px;margin-top:20px;align-items:stretch;flex:1;min-height:0">
+    <div>
+      <div class="card" style="padding:24px 26px">
+        <p class="lbl" style="margin:0;font-size:24px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)">5.4.1 · Kualifikasi</p>
+        <h3 style="font-size:26px;margin:8px 0 2px">Muhdir, M.Pd.I.</h3>
+        <p style="margin:0 0 12px;color:var(--text-3);font-size:24px">Strata 2 — Magister Pendidikan Islam</p>
+        <div class="doclist" style="grid-template-columns:1fr;margin-top:0">
+          <div><span class="tick">&#10003;</span><span>Ijazah S2 (5.4.1.1)</span></div>
+          <div><span class="tick">&#10003;</span><span>Transkrip Nilai S2 (5.4.1.2)</span></div>
+        </div>
+      </div>
+      <div class="gal g2 docgrid" style="margin-top:16px">
+        <div class="item"><figure class="shot contain dshot"><span class="badge">IJAZAH</span><img src="media/slide/ijazah_s2.jpg" alt="Ijazah Strata 2 Magister Pendidikan Islam atas nama Muhdir, Universitas Nahdlatul Ulama Surakarta"><figcaption class="cap"><b>Ijazah S2</b>Magister Pendidikan Islam · UNS Surakarta</figcaption></figure></div>
+        <div class="item"><figure class="shot contain dshot"><span class="badge">TRANSKRIP</span><img src="media/slide/transkrip_s2.jpg" alt="Transkrip nilai Strata 2 atas nama Muhdir"><figcaption class="cap"><b>Transkrip Nilai</b>5.4.1.2 · terverifikasi</figcaption></figure></div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:26px 30px">
+      <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:6px">
+        <div class="big" style="font-size:72px"><span class="counter" data-to="316">0</span></div>
+        <div><div style="font-size:24px;font-weight:800">jam pelatihan</div><div style="font-size:24px;color:var(--text-3)">13 diklat · 2023—2026</div></div>
+      </div>
+      <div class="bars">
+        <div class="bar" style="grid-template-columns:64px 1fr 70px"><span class="nm">2023</span><div class="tr"><div class="fl" data-w="94%"></div></div><span class="nu">94 JP</span></div>
+        <div class="bar" style="grid-template-columns:64px 1fr 70px"><span class="nm">2024</span><div class="tr"><div class="fl" data-w="92%"></div></div><span class="nu">92 JP</span></div>
+        <div class="bar" style="grid-template-columns:64px 1fr 70px"><span class="nm">2025</span><div class="tr"><div class="fl" data-w="80%"></div></div><span class="nu">80 JP</span></div>
+        <div class="bar" style="grid-template-columns:64px 1fr 70px"><span class="nm">2026</span><div class="tr"><div class="fl" data-w="50%"></div></div><span class="nu">50 JP</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px">
+        <div class="kpi" style="padding:16px 18px"><p class="lbl" style="font-size:24px">Nasional</p><div class="val" style="font-size:34px">11</div></div>
+        <div class="kpi" style="padding:16px 18px"><p class="lbl" style="font-size:24px">Provinsi</p><div class="val" style="font-size:34px">1</div></div>
+        <div class="kpi" style="padding:16px 18px"><p class="lbl" style="font-size:24px">Kab/Kota</p><div class="val" style="font-size:34px">1</div></div>
+      </div>
+      <p style="font-size:24px;color:var(--text-2);margin:16px 0 0">Tema: moderasi beragama, anti-perundungan, AI untuk bahan ajar, visualisasi data, KTI, Kurikulum Berbasis Cinta.</p>
+    </div>
+  </div>
+  <div class="notes">Indikator 5.4.1 mengenai kualifikasi akademik. Saya menempuh Strata 2 dengan gelar Magister Pendidikan Islam, dan buktinya berupa ijazah serta transkrip nilai yang siap diverifikasi. Indikator 5.4.2 mengenai diklat dan pengembangan diri. Selama empat tahun saya mengikuti 13 diklat dengan total 316 jam pelatihan, dan sebelas di antaranya bertaraf nasional. Tema diklat saya pilih mengikuti kebutuhan madrasah, mulai dari moderasi beragama, perlindungan anak dari perundungan, pemanfaatan kecerdasan artifisial untuk bahan ajar, sampai Kurikulum Berbasis Cinta pada tahun dua ribu dua puluh enam.</div>
+</section>
+
+<!-- ==================== 12 · 5.4.3 ICT (FOTO) ==================== -->
+<section class="slide" data-title="5.4.3 Penguasaan ICT">
+  <div class="deck-header"><span class="eyebrow">Indikator 5.4.3</span><span class="eyebrow">Penguasaan ICT</span></div>
+  <p class="kicker">5.4.3 penguasaan ICT</p>
+  <h2 class="h2">ICT yang <span class="gradient-text">dipakai di depan publik</span></h2>
+
+  <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:32px;margin-top:22px;align-items:stretch;flex:1;min-height:0">
+    <div class="item" style="min-height:0">
+      <figure class="shot" style="flex:1;min-height:430px">
+        <img src="media/slide/ict_kuasai.jpg" alt="Kepala madrasah menggunakan laptop saat rapat" style="object-position:center">
+        <figcaption class="cap"><b>Praktik langsung penguasaan ICT</b>Rapat koordinasi bersama komite &amp; orang tua · 2026</figcaption>
+      </figure>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;min-height:0">
+      <div class="card" style="padding:24px 28px">
+        <p class="lbl" style="margin:0 0 12px;font-size:24px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)">Bentuk praktik</p>
+        <div class="doclist" style="grid-template-columns:1fr;margin-top:0">
+          <div><span class="tick">&#10003;</span><span>Menyusun bahan paparan digital secara mandiri</span></div>
+          <div><span class="tick">&#10003;</span><span>Presentasi 3 sesi di forum orang tua</span></div>
+          <div><span class="tick">&#10003;</span><span>Menguasai ICT pembelajaran &amp; supervisi</span></div>
+          <div><span class="tick">&#10003;</span><span>Paparan anggaran secara transparan</span></div>
+        </div>
+      </div>
+      <div class="gal g2" style="gap:16px;flex:1;min-height:240px;margin-top:0">
+        <div class="item"><figure class="shot"><span class="badge">DOKUMEN</span><img src="media/slide/ict_presentasi.jpg" alt="Dokumen kemampuan ICT" style="object-position:center top"><figcaption class="cap"><b>Bahan paparan</b>Disusun mandiri</figcaption></figure></div>
+        <div class="item"><figure class="shot"><span class="badge">FORUM</span><img src="media/slide/new_forum_ortu.jpg" alt="Forum orang tua dalam ruang rapat madrasah" style="object-position:center 45%"><figcaption class="cap"><b>Forum orang tua</b>Presentasi 3 sesi</figcaption></figure></div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">Indikator 5.4.3 mengenai penguasaan ICT. Saya tidak hanya menguasai secara konseptual, tetapi mempraktikkannya langsung di depan publik. Buktinya adalah dokumentasi presentasi saya pada forum orang tua murid kelas tujuh, delapan, dan sembilan yang dilaksanakan dalam tiga sesi pada sepuluh September dua ribu dua puluh enam. Bahan paparan saya susun sendiri secara digital, mencakup visi, misi, program, dan rancangan anggaran yang disampaikan secara transparan.</div>
+</section>
+
+<!-- ==================== 13 · 5.4.4 PRESTASI KAMAD ==================== -->
+<section class="slide" data-title="5.4.4 Prestasi Kepala Madrasah">
+  <div class="deck-header"><span class="eyebrow">Indikator 5.4.4</span><span class="eyebrow">Prestasi Kepala Madrasah</span></div>
+  <p class="kicker">5.4.4 prestasi kepala madrasah</p>
+  <h2 class="h2">Tiga tahun, <span class="gradient-text">tiga kali Amat Baik</span></h2>
+
+  <div class="gal g3" style="margin-top:22px;gap:18px">
+    <div class="item"><figure class="shot contain" style="height:322px"><span class="badge" style="background:var(--accent);color:#fff;z-index:3;font-weight:800;letter-spacing:.04em">2023</span>
+      <img src="media/slide/pkkm_2023.jpg" alt="Hasil Penilaian Kinerja Tahunan Kepala Madrasah Tahun 2023, rata-rata 99,13, predikat Amat Baik" style="padding:8px 8px 52px">
+      <figcaption class="cap" style="background:linear-gradient(180deg,rgba(3,32,22,0) 0%,rgba(3,32,22,.94) 42%)"><b>99,13 · Amat Baik</b>PKKM Tahun Ke-1 · 7 Nov 2023</figcaption></figure></div>
+    <div class="item"><figure class="shot contain" style="height:322px"><span class="badge" style="background:var(--accent);color:#fff;z-index:3;font-weight:800;letter-spacing:.04em">2024</span>
+      <img src="media/slide/pkkm_2024.jpg" alt="Hasil Penilaian Kinerja Tahunan Kepala Madrasah Tahun 2024, rata-rata 98,51, predikat Amat Baik" style="padding:8px 8px 52px">
+      <figcaption class="cap" style="background:linear-gradient(180deg,rgba(3,32,22,0) 0%,rgba(3,32,22,.94) 42%)"><b>98,51 · Amat Baik</b>PKKM Tahun Ke-2 · 9 Nov 2024</figcaption></figure></div>
+    <div class="item"><figure class="shot contain" style="height:322px"><span class="badge" style="background:var(--accent);color:#fff;z-index:3;font-weight:800;letter-spacing:.04em">2025</span>
+      <img src="media/slide/pkkm_2025.jpg" alt="Hasil Penilaian Kinerja Tahunan Kepala Madrasah Tahun 2025, rata-rata 98,77, predikat Amat Baik" style="padding:8px 8px 52px">
+      <figcaption class="cap" style="background:linear-gradient(180deg,rgba(3,32,22,0) 0%,rgba(3,32,22,.94) 42%)"><b>98,77 · Amat Baik</b>PKKM Tahun Ke-3 · 20 Okt 2025</figcaption></figure></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1.35fr 1fr;gap:22px;margin-top:22px;align-items:start">
+    <div class="card" style="padding:20px 24px">
+      <p class="lbl" style="margin:0 0 10px;font-size:24px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)">Prestasi pendukung</p>
+      <div class="doclist" style="grid-template-columns:1fr;margin-top:0;gap:8px">
+        <div><span class="tick">&#10003;</span><span><b>Juara 1 Bulutangkis Ganda Putra</b> — PORSENI GTK Kabupaten Kebumen, 12 Sep 2026</span></div>
+        <div><span class="tick">&#10003;</span><span><b>Juara 1 Badminton Ganda Putra</b> — PORSENI GTK KKM MTsN 2 Kebumen, 29 Agu 2026</span></div>
+        <div><span class="tick">&#10003;</span><span><b>Juara 2 Bulu Tangkis Ganda Putra</b> — Hari Santri Nasional, 18 Okt 2023</span></div>
+      </div>
+    </div>
+    <div class="item"><figure class="shot contain" style="height:250px;border-radius:var(--radius)">
+      <img src="media/slide/badminton_kabupaten.jpg" alt="Sertifikat Juara 1 Bulutangkis Ganda Putra PORSENI GTK tingkat Kabupaten Kebumen 2026" style="padding:10px 10px 88px">
+      <figcaption class="cap"><b>Juara 1 · Tingkat Kabupaten</b>PORSENI GTK 2026</figcaption></figure></div>
+  </div>
+  <div class="notes">Indikator 5.4.4 mengenai prestasi kepala madrasah. Selama tiga tahun penilaian kinerja, saya memperoleh kategori Amat Baik berturut-turut dengan nilai 99,13 pada dua ribu dua puluh tiga, 98,51 pada dua ribu dua puluh empat, dan 98,77 pada dua ribu dua puluh lima. Selain penilaian kinerja, saya juga meraih juara pertama bulu tangkis ganda putra pada PORSENI GTK tingkat Kabupaten Kebumen, juara pertama badminton ganda putra pada PORSENI GTK tingkat KKM MTsN 2 Kebumen, serta juara kedua bulu tangkis ganda putra pada peringatan Hari Santri Nasional dua ribu dua puluh tiga.</div>
+</section>
+
+<!-- ==================== 14 · 5.4.5 KARYA ILMIAH ==================== -->
+<section class="slide" data-title="5.4.5 Karya Ilmiah">
+  <div class="deck-header"><span class="eyebrow">Indikator 5.4.5</span><span class="eyebrow">Karya Ilmiah &amp; Penelitian</span></div>
+  <p class="kicker">5.4.5 karya ilmiah</p>
+  <h2 class="h2">Meneliti, menulis, lalu <span class="gradient-text">menerbitkan</span></h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:24px;align-items:stretch;flex:1;min-height:0">
+    <div class="card" style="padding:26px 30px;background:var(--grad-soft);border-color:var(--border-strong)">
+      <p class="lbl" style="margin:0 0 8px;font-size:24px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#00764a">Publikasi Internasional · 2025</p>
+      <h3 style="font-size:24px;line-height:1.32;margin:0 0 10px">Islamic Education within the Religious Social Organization Nahdlatul Ulama</h3>
+      <p style="font-size:24px;color:var(--text-2);margin:0">INJOTEL — International Journal of Teaching and Learning, Vol. 2 No. 11 · telah terbit &amp; LoA tersedia · bersama Moh. Roqib (UIN K.H. Saifuddin Zuhri Purwokerto)</p>
+      <div class="gal g2" style="margin-top:18px;gap:14px">
+        <div class="item"><figure class="shot" style="height:200px"><img src="media/slide/penelitian1.jpg" alt="Halaman artikel jurnal"></figure></div>
+        <div class="item"><figure class="shot" style="height:200px"><img src="media/slide/penelitian2.jpg" alt="Dokumen publikasi"></figure></div>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;gap:16px;align-items:baseline;margin-bottom:16px">
+        <div class="big" style="font-size:70px"><span class="counter" data-to="5">0</span></div>
+        <div><div style="font-size:24px;font-weight:800">karya ilmiah</div><div style="font-size:24px;color:var(--text-3)">2023—2026 · 101 halaman</div></div>
+      </div>
+      <div class="doclist" style="grid-template-columns:1fr;margin-top:0;gap:11px">
+        <div><span class="tick">&#10003;</span><span><b>SLR: Dinamika Masyarakat terhadap Madrasah</b> — Artikel, 2025, 21 hlm.</span></div>
+        <div><span class="tick">&#10003;</span><span><b>Parenting Generasi Z (QS. Luqman: 13)</b> — Artikel, 2024, 24 hlm.</span></div>
+        <div><span class="tick">&#10003;</span><span><b>Madrasah dalam Arus Modernitas</b> — Makalah, 2026, 19 hlm.</span></div>
+        <div><span class="tick">&#10003;</span><span><b>Penguatan Karakter Budaya Religius Siswa</b> — Makalah, 2023, 28 hlm.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">Indikator 5.4.5 mengenai karya ilmiah hasil penelitian bidang pendidikan. Saya telah menghasilkan lima karya ilmiah dengan total seratus satu halaman selama periode dua ribu dua puluh tiga sampai dua ribu dua puluh enam. Yang paling saya banggakan adalah artikel berjudul Islamic Education within the Religious Social Organization Nahdlatul Ulama yang terbit pada International Journal of Teaching and Learning atau INJOTEL pada dua ribu dua puluh lima. Surat penerimaan dan halaman terbitnya tersedia sebagai bukti.</div>
+</section>
+
+<!-- ==================== 15 · 5.4.6 KOMITE (FOTO) ==================== -->
+<section class="slide" data-title="5.4.6 Pelibatan Komite">
+  <div class="deck-header"><span class="eyebrow">Indikator 5.4.6</span><span class="eyebrow">Pelibatan Komite Madrasah</span></div>
+  <p class="kicker">5.4.6 pelibatan komite</p>
+  <h2 class="h2">Komite dilibatkan <span class="gradient-text">secara melembaga</span></h2>
+
+  <div style="display:grid;grid-template-columns:1.15fr 1fr;gap:32px;margin-top:22px;align-items:stretch;flex:1;min-height:0">
+    <div style="display:flex;flex-direction:column;gap:16px;min-height:0">
+      <figure class="shot" style="flex:1;min-height:340px;border-radius:var(--radius)">
+        <img src="media/slide/pleno_sesi.jpg" alt="Rapat pleno bersama komite dan orang tua">
+        <figcaption class="cap"><b>Rapat Pleno Penyampaian Visi, Misi &amp; Program</b>Aula Utama · 3 sesi · 10 September 2026</figcaption>
+      </figure>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+        <div class="kpi" style="padding:18px 16px"><p class="lbl">SK Komite</p><div class="val" style="font-size:44px">3</div></div>
+        <div class="kpi" style="padding:18px 16px"><p class="lbl">AD/ART</p><div class="val" style="font-size:44px">2</div></div>
+        <div class="kpi" style="padding:18px 16px"><p class="lbl">Proker</p><div class="val" style="font-size:44px">3</div></div>
+        <div class="kpi" style="padding:18px 16px"><p class="lbl">Laporan</p><div class="val" style="font-size:44px">6</div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px;min-height:0">
+      <div class="card" style="padding:24px 26px">
+        <p class="lbl" style="margin:0 0 10px;font-size:24px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)">Contoh praktik baik</p>
+        <div class="doclist" style="grid-template-columns:1fr;margin-top:0;gap:11px">
+          <div><span class="tick">&#10003;</span><span>Paparan RAPBM: DIPA &amp; anggaran komite transparan</span></div>
+          <div><span class="tick">&#10003;</span><span>3 sesi terpisah untuk wali murid kelas VII—IX</span></div>
+          <div><span class="tick">&#10003;</span><span>Landasan PMA No. 16 Tahun 2020</span></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;min-height:0">
+        <figure class="shot" style="min-height:230px"><span class="badge">NOTULEN</span><img src="media/slide/notulen_2025.jpg" alt="Notulen rapat komite"><figcaption class="cap"><b>Notulen resmi</b>Rapat komite 2025</figcaption></figure>
+        <figure class="shot" style="min-height:230px"><span class="badge">FOTO</span><img src="media/slide/new_forum_komite.jpg" alt="Forum komite bersama wali murid madrasah" style="object-position:center 40%"><figcaption class="cap"><b>Forum komite</b>Wali murid &amp; komite</figcaption></figure>
+      </div>
+    </div>
+  </div>
+  <div class="notes">Indikator 5.4.6 mengenai pelibatan komite madrasah. Pelibatan komite dijalankan secara melembaga, bukan insidental. Tersedia tiga surat keputusan komite, dua dokumen AD ART, tiga program kerja, dan enam laporan kegiatan. Contoh praktik baiknya adalah Rapat Pleno Penyampaian Visi, Misi, Program Madrasah, serta pembahasan anggaran yang dilaksanakan pada sepuluh September dua ribu dua puluh enam di Aula Utama, dibagi menjadi tiga sesi untuk wali murid kelas tujuh, delapan, dan sembilan. Rancangan anggaran DIPA dan komite disampaikan secara terbuka.</div>
+</section>
+
+<!-- ==================== 16 · 5.4.7 KEMITRAAN ==================== -->
+<section class="slide" data-title="5.4.7 Kemitraan">
+  <div class="deck-header"><span class="eyebrow">Indikator 5.4.7</span><span class="eyebrow">Kemitraan Strategis</span></div>
+  <p class="kicker">5.4.7 kemitraan</p>
+  <h2 class="h2"><span class="gradient-text">16 mitra</span> dalam satu ekosistem</h2>
+
+  <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:30px;margin-top:20px;align-items:start">
+    <div class="mitra anim-stagger-list" data-anim-target>
+      <div class="m"><i class="lg"><img src="media/logos/kemenag.png" alt="Logo Kementerian Agama RI"></i><div><b>KKM &amp; Kemenag</b><span>Kelompok Kerja · Keagamaan</span></div></div>
+      <div class="m"><i class="lg"><img src="media/logos/iainu.png" alt="Logo IAINU Kebumen"></i><div><b>IAINU Kebumen</b><span>Perguruan Tinggi</span></div></div>
+      <div class="m"><i class="lg"><img src="media/logos/kemenkes.png" alt="Logo Kementerian Kesehatan RI"></i><div><b>Puskesmas Kutowinangun</b><span>Kesehatan · Kemenkes</span></div></div>
+      <div class="m"><i class="lg"><img src="media/logos/kemenkes.png" alt="Logo Kementerian Kesehatan RI"></i><div><b>Dinkes &amp; KB</b><span>Program SSK</span></div></div>
+      <div class="m"><i class="lg"><img src="media/logos/tniad.png" alt="Logo TNI Angkatan Darat"></i><div><b>Koramil 09</b><span>Bela Negara · TNI AD</span></div></div>
+      <div class="m"><i class="lg"><img src="media/logos/polri.png" alt="Logo Kepolisian Negara Republik Indonesia"></i><div><b>Kepolisian</b><span>Keamanan</span></div></div>
+      <div class="m"><i class="lg"><img src="media/logos/bgn.png" alt="Logo Badan Gizi Nasional"></i><div><b>Badan Gizi Nasional</b><span>Program MBG</span></div></div>
+      <div class="m"><i class="lg"><img src="media/logos/perpusnas.png" alt="Logo Perpustakaan Nasional RI"></i><div><b>Kearsipan &amp; Perpusda</b><span>Literasi · Perpusnas</span></div></div>
+      <div class="m"><i>SMAN</i><div><b>SMAN Prembun</b><span>Pendidikan</span></div></div>
+      <div class="m"><i>MI</i><div><b>Masjid Islamic Centre</b><span>Keagamaan</span></div></div>
+      <div class="m"><i>NHSC</i><div><b>NHSC</b><span>Sertifikasi</span></div></div>
+      <div class="m"><i>CV</i><div><b>CV Bintang Reksa</b><span>Dunia Usaha</span></div></div>
+      <div class="m"><i>KOM</i><div><b>Komite Madrasah</b><span>Masyarakat</span></div></div>
+      <div class="m"><i>SD</i><div><b>SDN 1 Wonosari</b><span>Adiwiyata</span></div></div>
+      <div class="m"><i>MI</i><div><b>MI Ma'arif Babadsari</b><span>Adiwiyata</span></div></div>
+      <div class="m"><i>WK</i><div><b>WK MTsN Kebumen</b><span>Lintas Madrasah</span></div></div>
+    </div>
+
+    <div>
+      <div class="card" style="padding:22px 26px;background:var(--grad-soft)">
+        <div style="display:flex;align-items:baseline;gap:14px">
+          <div class="big" style="font-size:62px"><span class="counter" data-to="17">0</span></div>
+          <div style="font-size:24px;font-weight:700;color:var(--text-2);line-height:1.3">dokumen kerja sama<br><span style="font-weight:600;color:var(--text-3)">MoU · piagam · sertifikat</span></div>
+        </div>
+      </div>
+      <div class="gal g2" style="margin-top:14px;gap:12px">
+        <div class="item"><figure class="shot" style="height:150px"><img src="media/slide/mou_koramil.jpg" alt="MoU Koramil"></figure></div>
+        <div class="item"><figure class="shot" style="height:150px"><img src="media/slide/mou_iainu.jpg" alt="MoU IAINU"></figure></div>
+        <div class="item"><figure class="shot" style="height:150px"><img src="media/slide/mou_bgn.jpg" alt="MoU BGN"></figure></div>
+        <div class="item"><figure class="shot" style="height:150px"><img src="media/slide/mou_komite.jpg" alt="MoU Komite"></figure></div>
+      </div>
+      <p style="font-size:24px;color:var(--text-3);margin-top:12px">Penandatanganan: 2024 — 6 dokumen · 2025 — 5 · 2026 — 6 (berkelanjutan)</p>
+    </div>
+  </div>
+  <div class="notes">Indikator terakhir, 5.4.7, mengenai kemitraan. Terdapat tujuh belas dokumen kerja sama dengan enam belas mitra strategis. Mitra tersebut mencakup lembaga pendidikan seperti SMAN Prembun dan IAINU Kebumen, lembaga pemerintah seperti Dinas Kesehatan, Koramil 09 Kutowinangun, dan Badan Gizi Nasional untuk program Makanan Bergizi Gratis, institusi kesehatan seperti Puskesmas Kutowinangun, dunia usaha, serta masyarakat melalui komite madrasah. Penandatanganan terus berlanjut, dengan enam dokumen baru pada dua ribu dua puluh enam saja.</div>
+</section>
+
+<!-- ==================== 17 · RINGKASAN ==================== -->
+<section class="slide" data-title="Ringkasan Capaian">
+  <div class="deck-header"><span class="eyebrow">Rekapitulasi</span><span class="eyebrow">Aspek 5 · 2023—2026</span></div>
+  <p class="kicker">Ringkasan</p>
+  <h2 class="h2">Dua lokus, <span class="gradient-text">satu rekam jejak</span></h2>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px">
+    <div class="kpi"><p class="lbl">Peserta Didik</p><div class="val"><span class="counter" data-to="223">0</span></div><p class="sub">103 akademik · 120 non-akademik</p></div>
+    <div class="kpi"><p class="lbl">Guru &amp; Tendik</p><div class="val"><span class="counter" data-to="29">0</span></div><p class="sub">9 akademik · 20 non-akademik</p></div>
+    <div class="kpi"><p class="lbl">Madrasah</p><div class="val"><span class="counter" data-to="12">0</span></div><p class="sub">5 akademik · 7 non-akademik</p></div>
+    <div class="kpi"><p class="lbl">Diklat</p><div class="val"><span class="counter" data-to="13">0</span> <span class="unit">/ 316 JP</span></div><p class="sub">11 tingkat nasional</p></div>
+    <div class="kpi"><p class="lbl">Prestasi Internasional</p><div class="val"><span class="counter" data-to="6">0</span></div><p class="sub">pencak silat siswa</p></div>
+    <div class="kpi"><p class="lbl">Karya Ilmiah</p><div class="val"><span class="counter" data-to="5">0</span></div><p class="sub">1 jurnal internasional</p></div>
+    <div class="kpi"><p class="lbl">Mitra Kemitraan</p><div class="val"><span class="counter" data-to="16">0</span></div><p class="sub">17 dokumen kerja sama</p></div>
+    <div class="kpi"><p class="lbl">Rerata Nilai PKKM</p><div class="val"><span class="counter" data-to="98.8">0</span></div><p class="sub">2023—2025 · Amat Baik</p></div>
+  </div>
+
+  <div class="card" style="margin-top:26px;padding:22px 28px;background:var(--grad-soft);border-color:var(--border-strong)">
+    <p class="quote" style="font-size:30px;line-height:1.35;margin:0">Seluruh dokumen tersedia untuk diverifikasi — <em>piagam, sertifikat, ijazah, karya ilmiah, SK komite, dan MoU.</em></p>
+  </div>
+  <div class="notes">Sebagai ringkasan, selama periode penilaian dua ribu dua puluh tiga sampai sepuluh November dua ribu dua puluh enam di dua lokus jabatan tercatat 223 prestasi peserta didik, 29 prestasi guru dan tenaga kependidikan, 12 penghargaan madrasah, 13 diklat dengan 316 jam pelatihan, 5 karya ilmiah, dan 16 mitra kemitraan. Rata-rata nilai PKKM tiga tahun terakhir berada pada kategori Amat Baik.</div>
+</section>
+
+<!-- ==================== 18 · PENUTUP ==================== -->
+<section class="slide full" data-title="Penutup" data-no-logo>
+  <div class="bleed">
+    <img src="media/slide/new_penutup.jpg" alt="Kepala madrasah di lingkungan MTsN 3 Kebumen" style="object-position:center 25%">
+    <div class="scrim" style="background:linear-gradient(90deg,rgba(3,32,22,.94),rgba(3,32,22,.8) 55%,rgba(3,32,22,.4))"></div>
+    <div class="cap" style="max-width:900px">
+      <span class="pill">Penilaian Kinerja Kepala Madrasah · 2026</span>
+      <h1 class="mt-s anim-rise-in" data-anim="rise-in" style="font-size:88px">Terima Kasih</h1>
+      <p style="font-size:24px">Seluruh bukti dokumen siap diverifikasi. Mohon arahan dan masukan Tim Penilai.</p>
+      <div style="display:flex;gap:34px;margin-top:34px;flex-wrap:wrap">
+        <div style="color:#fff"><div style="font-size:24px;font-weight:800">Muhdir, M.Pd.I.</div><div style="font-size:24px;opacity:.82">Kepala Madrasah</div></div>
+        <div style="color:#fff"><div style="font-size:24px;font-weight:800">197709272006041019</div><div style="font-size:24px;opacity:.82">NIP</div></div>
+        <div style="color:#fff"><div style="font-size:24px;font-weight:800">MTs Negeri 2 Kebumen</div><div style="font-size:24px;opacity:.82">Kementerian Agama</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">Demikian pemaparan Aspek 5 tentang Prestasi dan Pengembangan Diri. Seluruh data bersumber dari rekap resmi dan dokumen bukti yang tersedia, meliputi ijazah, sertifikat diklat, piagam prestasi, karya ilmiah, dokumen komite, dan naskah kerja sama. Saya siap memberikan penjelasan tambahan serta menunjukkan dokumen asli bila diperlukan. Terima kasih atas perhatian Tim Penilai.</div>
+</section>
+
+</div>
+<script src="assets/runtime.js"></script>
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function settle(){
+    document.querySelectorAll('.counter').forEach(function(el){
+      var raw = el.getAttribute('data-to') || '';
+      var v = parseFloat(raw);
+      if(isNaN(v)) return;
+      var dec = raw.indexOf('.') > -1 ? (raw.split('.')[1] || '').length : 0;
+      el.textContent = dec > 0 ? v.toFixed(dec) : String(Math.round(v));
+    });
+    document.querySelectorAll('.fl').forEach(function(el){ el.style.width = el.dataset.w || '0%'; });
+  }
+
+  if(reduce){
+    settle();
+    var st = document.createElement('style');
+    st.textContent = '*,*::before,*::after{animation:none!important;transition:none!important}'
+                   + '.anim-stagger-list>*{opacity:1!important;transform:none!important}';
+    document.head.appendChild(st);
+    return;
+  }
+
+  function growBars(slide){
+    var bars = slide.querySelectorAll('.fl');
+    if(!bars.length) return;
+    bars.forEach(function(el){ el.classList.remove('grow'); el.style.width = '0'; });
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        bars.forEach(function(el,i){
+          el.classList.add('grow');
+          setTimeout(function(){ el.style.width = el.dataset.w || '0%'; }, i*75);
+        });
+      });
+    });
+  }
+
+  new MutationObserver(function(muts){
+    muts.forEach(function(m){
+      if(m.target.classList && m.target.classList.contains('slide') && m.target.classList.contains('is-active')){
+        growBars(m.target);
+      }
+    });
+  }).observe(document.querySelector('.deck'), { attributes:true, subtree:true, attributeFilter:['class'] });
+
+  var first = document.querySelector('.slide.is-active');
+  if(first) setTimeout(function(){ growBars(first); }, 420);
+})();
+</script>
+</body>
+</html>
