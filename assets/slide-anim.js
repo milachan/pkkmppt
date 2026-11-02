@@ -1,28 +1,29 @@
 /* ==========================================================================
-   slide-anim.js — Animasi masuk per slide (halus & elegan)
+   slide-anim.js — Animasi masuk per slide
    --------------------------------------------------------------------------
-   Menerapkan animasi entry ke elemen slide secara otomatis lewat JS, sehingga
-   markup slide TIDAK perlu diubah dan tata letak (posisi pixel) tetap utuh.
+   Memberi animasi "muncul" pada elemen slide tanpa mengubah markup, sehingga
+   tata letak (posisi pixel) tetap utuh.
 
-   Hanya `opacity` + `transform` yang dianimasikan — keduanya tidak memicu
-   reflow, jadi tidak menggeser layout satu piksel pun.
+   Pendekatan v4 — sengaja dibuat SEDERHANA:
+   • Animasi diputar dengan Web Animations API (`element.animate`).
+     Ini kebal terhadap aturan CSS `!important` maupun batas spesifisitas,
+     yang menjadi penyebab gagal di beberapa browser pada versi sebelumnya.
+   • Tidak ada MutationObserver yang memantau `class` (dulu menyebabkan
+     loop tak berujung), tidak ada reflow paksa berulang.
+   • Hanya menggerakkan `opacity` dan `transform`, jadi tidak memicu reflow.
 
-   Cara kerja:
-   1. Saat slide menjadi aktif (kelas `is-active`), elemen di dalamnya
-      dikelompokkan ke "baris" berdasarkan posisi vertikal aslinya (offsetTop).
-   2. Baris diurutkan atas -> bawah, diberi delay bertahap (stagger).
-   3. Setiap baris masuk dengan fade-up ringan.
-
-   Elemen yang sudah punya atribut `data-anim` dikecualikan supaya tidak
-   dobel animasi dengan runtime.js.
+   Cara deteksi pergantian slide: memantau atribut `data-current` pada
+   `.slide-number`, plus pembanding indeks slide aktif pada tiap frame
+   (dibiayai satu requestAnimationFrame, murah, tanpa efek samping).
    ========================================================================== */
 (function () {
   'use strict';
 
-  var DUR       = 520;   // durasi tiap elemen (ms)
+  var DUR       = 520;   // durasi normal (ms)
+  var DUR_RED   = 400;   // durasi saat reduce-motion (ms)
   var STAGGER   = 70;    // jeda antar baris (ms)
-  var MAX_DELAY = 640;   // batas delay maksimum agar tidak terasa lambat
-  var ROW_TOL   = 14;    // toleransi px untuk menganggap elemen satu baris
+  var MAX_DELAY = 640;   // batas delay
+  var ROW_TOL   = 16;    // toleransi px satu baris
 
   var SKIP_SEL = '.notes,[data-anim],script,style,br';
 
@@ -40,76 +41,79 @@
               window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   }
 
-  /* Kumpulkan elemen target satu slide, kelompokkan per baris vertikal. */
-  function collect(slide) {
+  /* Elemen kandidat, tanpa elemen yang bersarang di dalam kandidat lain. */
+  function candidates(slide) {
     var nodes = Array.prototype.slice.call(slide.querySelectorAll(CANDIDATE_SEL));
-
-    var list = nodes.filter(function (el) {
+    return nodes.filter(function (el) {
       if (el.matches(SKIP_SEL)) return false;
       if (el.closest('.notes')) return false;
-      // Jika ada induk yang juga kandidat, cukup animasikan induknya
-      var parent = el.parentElement && el.parentElement.closest(CANDIDATE_SEL);
-      if (parent && nodes.indexOf(parent) !== -1) return false;
+      var p = el.parentElement && el.parentElement.closest(CANDIDATE_SEL);
+      if (p && nodes.indexOf(p) !== -1) return false;
       return true;
     });
+  }
 
+  /* Urutkan per baris (atas → bawah) untuk efek stagger yang wajar. */
+  function grouped(slide) {
+    var list = candidates(slide);
     var rows = [];
-    list.forEach(function (el) {
-      var top = el.offsetTop;
+    list.forEach(function (el, idx) {
+      var top = 0, n = el;
+      while (n && n !== slide) { top += n.offsetTop || 0; n = n.offsetParent; }
+      if (!top) top = idx;                       // fallback bila tak terukur
       for (var i = 0; i < rows.length; i++) {
-        if (Math.abs(rows[i].top - top) <= ROW_TOL) {
-          rows[i].els.push(el);
-          return;
-        }
+        if (Math.abs(rows[i].top - top) <= ROW_TOL) { rows[i].els.push(el); return; }
       }
       rows.push({ top: top, els: [el] });
     });
-
     rows.sort(function (a, b) { return a.top - b.top; });
     return rows;
   }
 
   function play(slide) {
+    if (!slide) return;
     var reduced = prefersReduced();
-    var dur     = reduced ? 180 : DUR;
-    var stagger = reduced ? 30  : STAGGER;
-    var delay   = 0;
+    var dur     = reduced ? DUR_RED : DUR;
+    var stagger = reduced ? 40 : STAGGER;
 
-    collect(slide).forEach(function (row) {
+    // Batalkan animasi lama agar tidak bertumpuk saat berpindah cepat
+    if (slide._animList) {
+      slide._animList.forEach(function (a) { try { a.cancel(); } catch (e) {} });
+    }
+    slide._animList = [];
+
+    var delay = 0;
+    grouped(slide).forEach(function (row) {
       row.els.forEach(function (el) {
-        if (el.offsetHeight === 0 && el.offsetWidth === 0) return;
-
-        /* Gunakan important agar MENANG atas aturan CSS `animations.css`
-         * yang memakai `!important` pada `[class*="anim-"]`. Tanpa ini,
-         * elemen yang sekaligus punya kelas `anim-*` akan dikuasai aturan
-         * tersebut dan animasi baris kita tidak pernah berjalan. */
-        el.style.setProperty('animation', 'none', 'important');
-        void el.offsetWidth;                    // paksa reflow agar bisa diulang
-        el.style.setProperty(
-          'animation',
-          'slideRowIn ' + dur + 'ms cubic-bezier(.22,.61,.36,1) ' +
-          delay + 'ms both',
-          'important'
-        );
+        var keyframes = [
+          { opacity: 0 },
+          { opacity: 1 }
+        ];
+        // Geseran vertikal hanya saat animasi penuh dimungkinkan
+        if (!reduced) {
+          keyframes = [
+            { opacity: 0, transform: 'translate3d(0,18px,0)' },
+            { opacity: 1, transform: 'translate3d(0,0,0)' }
+          ];
+        }
+        try {
+          var anim = el.animate(keyframes, {
+            duration: dur,
+            delay: delay,
+            easing: 'cubic-bezier(.22,.61,.36,1)',
+            fill: 'both'
+          });
+          slide._animList.push(anim);
+        } catch (e) {
+          /* Browser tanpa WAAPI: biarkan elemen tampil apa adanya */
+          el.style.opacity = '1';
+        }
       });
       delay = Math.min(delay + stagger, MAX_DELAY);
     });
   }
 
-  function injectKeyframes() {
-    if (document.getElementById('slide-anim-kf')) return;
-    var s = document.createElement('style');
-    s.id = 'slide-anim-kf';
-    s.textContent =
-      '@keyframes slideRowIn{' +
-      'from{opacity:0;transform:translate3d(0,18px,0)}' +
-      'to{opacity:1;transform:none}}';
-    document.head.appendChild(s);
-  }
-
   function init() {
-    injectKeyframes();
-
     var deck = document.querySelector('.deck');
     if (!deck) return;
 
@@ -123,22 +127,33 @@
       return -1;
     }
 
-    function check() {
-      var active = activeIndex();
-      if (active === -1 || active === last) return;
-      last = active;
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () { play(slides[active]); });
-      });
+    /* Cek ringan per frame: hanya bertindak bila indeks slide aktif berubah.
+       Tidak mengubah DOM saat tidak ada perubahan, jadi bebas dari loop. */
+    function loop() {
+      var a = activeIndex();
+      if (a !== -1 && a !== last) {
+        last = a;
+        play(slides[a]);
+      }
+      requestAnimationFrame(loop);
     }
 
-    // Amati perubahan kelas `is-active` pada semua slide
-    var mo = new MutationObserver(check);
-    slides.forEach(function (s) {
-      mo.observe(s, { attributes: true, attributeFilter: ['class'] });
-    });
+    // Animasi awal setelah gambar/font siap agar pengukuran baris akurat
+    var started = false;
+    function start() {
+      if (started) return;
+      started = true;
+      last = -1;
+      requestAnimationFrame(loop);
+    }
 
-    check();  // slide pertama saat halaman dibuka
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(start);
+      // Jaring pengaman bila fonts.ready tidak resolve (file://)
+      setTimeout(start, 600);
+    } else {
+      start();
+    }
   }
 
   if (document.readyState === 'loading') {

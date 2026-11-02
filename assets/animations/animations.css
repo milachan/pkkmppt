@@ -133,20 +133,22 @@
 .anim-ripple-reveal{animation:kf-ripple 1.2s var(--anim-ease) both}
 
 /* reduced motion — soft fallback
- * Dulu diblok ini mematikan SEMUA animasi total, sehingga di perangkat yang
- * mengaktifkan "reduce motion" (umum di iOS/Android) deck terasa mati.
- * Sekarang: animasi tetap berjalan namun sangat singkat dan tanpa gerakan
- * translasi, sehingga tetap nyaman bagi pengguna yang sensitif terhadap gerak.
+ * Dulu blok ini mematikan SEMUA animasi total, sehingga di perangkat yang
+ * mengaktifkan "reduce motion" (umum di Windows: Settings > Accessibility >
+ * Visual effects > Animation effects OFF) deck terasa mati / tanpa animasi.
+ *
+ * Sekarang animasi TETAP terlihat: hanya fade lembut tanpa gerakan translasi,
+ * dengan durasi yang masih cukup terlihat (0.4s) tetapi tanpa pergeseran,
+ * sehingga nyaman bagi pengguna yang sensitif terhadap gerak sekaligus
+ * tetap memberikan kesan "masuk" saat berpindah slide.
  */
 @media (prefers-reduced-motion: reduce){
-  :root{--anim-dur:.18s}
-  [class*="anim-"]{animation-duration:.18s!important;animation-timing-function:linear!important}
-  .anim-stagger-list > *{animation-delay:0s!important}
-  /* elemen bergerak berat: cukup fade, tanpa geser/zoom */
+  :root{--anim-dur:.4s}
+  [class*="anim-"]{animation-duration:.4s!important;animation-timing-function:ease-out!important}
+  .anim-stagger-list > *{animation-delay:.05s!important}
+  /* elemen bergerak berat: cukup fade, tanpa geser/zoom/blur */
   .anim-fade-up,.anim-fade-down,.anim-fade-left,.anim-fade-right,
-  .anim-rise-in,.anim-drop-in{
-    animation-name:kf-fade-only!important
-  }
+  .anim-rise-in,.anim-drop-in,
   .anim-zoom-pop,.anim-glitch-in,.anim-blur-in{
     animation-name:kf-fade-only!important
   }
