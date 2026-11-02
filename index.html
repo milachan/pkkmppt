@@ -757,12 +757,16 @@ html,body{font-family:'Plus Jakarta Sans',system-ui,sans-serif}
   }
 
   if(reduce){
-    settle();
+    /* Reduce-motion: JANGAN matikan semuanya.
+     * Bar chart tetap TUMBUH (hanya lebih singkat, tanpa easing berlebih),
+     * karena gerak "mengisi batang" ini ringan dan membantu memahami data —
+     * justru inilah animasi yang paling terasa hilang bila dimatikan.
+     * Gerakan besar (slide masuk/geser) tetap diredam oleh animations.css. */
     var st = document.createElement('style');
-    st.textContent = '*,*::before,*::after{animation:none!important;transition:none!important}'
-                   + '.anim-stagger-list>*{opacity:1!important;transform:none!important}';
+    st.textContent =
+      '.bar .fl.grow{transition:width .45s ease-out!important}' +
+      '.anim-stagger-list>*{opacity:1!important;transform:none!important}';
     document.head.appendChild(st);
-    return;
   }
 
   function growBars(slide){
