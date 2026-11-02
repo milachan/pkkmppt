@@ -132,7 +132,23 @@
   100%{clip-path:circle(160% at 20% 80%);opacity:1}}
 .anim-ripple-reveal{animation:kf-ripple 1.2s var(--anim-ease) both}
 
-/* reduced motion */
+/* reduced motion — soft fallback
+ * Dulu diblok ini mematikan SEMUA animasi total, sehingga di perangkat yang
+ * mengaktifkan "reduce motion" (umum di iOS/Android) deck terasa mati.
+ * Sekarang: animasi tetap berjalan namun sangat singkat dan tanpa gerakan
+ * translasi, sehingga tetap nyaman bagi pengguna yang sensitif terhadap gerak.
+ */
 @media (prefers-reduced-motion: reduce){
-  [class*="anim-"]{animation:none!important;transition:none!important}
+  :root{--anim-dur:.18s}
+  [class*="anim-"]{animation-duration:.18s!important;animation-timing-function:linear!important}
+  .anim-stagger-list > *{animation-delay:0s!important}
+  /* elemen bergerak berat: cukup fade, tanpa geser/zoom */
+  .anim-fade-up,.anim-fade-down,.anim-fade-left,.anim-fade-right,
+  .anim-rise-in,.anim-drop-in{
+    animation-name:kf-fade-only!important
+  }
+  .anim-zoom-pop,.anim-glitch-in,.anim-blur-in{
+    animation-name:kf-fade-only!important
+  }
 }
+@keyframes kf-fade-only{from{opacity:0}to{opacity:1}}
