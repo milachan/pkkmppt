@@ -79,11 +79,18 @@
       row.els.forEach(function (el) {
         if (el.offsetHeight === 0 && el.offsetWidth === 0) return;
 
-        el.style.animation = 'none';
+        /* Gunakan important agar MENANG atas aturan CSS `animations.css`
+         * yang memakai `!important` pada `[class*="anim-"]`. Tanpa ini,
+         * elemen yang sekaligus punya kelas `anim-*` akan dikuasai aturan
+         * tersebut dan animasi baris kita tidak pernah berjalan. */
+        el.style.setProperty('animation', 'none', 'important');
         void el.offsetWidth;                    // paksa reflow agar bisa diulang
-        el.style.animation =
+        el.style.setProperty(
+          'animation',
           'slideRowIn ' + dur + 'ms cubic-bezier(.22,.61,.36,1) ' +
-          delay + 'ms both';
+          delay + 'ms both',
+          'important'
+        );
       });
       delay = Math.min(delay + stagger, MAX_DELAY);
     });
